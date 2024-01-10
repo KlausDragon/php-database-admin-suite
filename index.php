@@ -50,7 +50,13 @@
                     $result = mysqli_query($mysqli, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["firstname"] . "</td><td>" . $row["lastname"] . "</td><td><a href='update.php?id=" . $row["id"] . "'>Update</a></td><td><a href='remove.php?id=" . $row["id"] . "'>Delete</a></td></tr>";
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row["id"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["firstname"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["lastname"]) . "</td>";
+                            echo "<td><a href='update.php?id=" . htmlspecialchars($row["id"]) . "'>Update</a></td>";
+                            echo "<td><a href='remove.php?id=" . htmlspecialchars($row["id"]) . "'>Delete</a></td>";
+                            echo "</tr>";
                         }
                     } else {
                         echo "0 results";
