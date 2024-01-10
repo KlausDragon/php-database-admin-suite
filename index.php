@@ -30,6 +30,10 @@
                     echo $_SESSION['successMessage'];
                     unset($_SESSION['successMessage']);
                 }
+                if(isset($_SESSION['errorMessages'])){
+                    echo $_SESSION['errorMessages'];
+                    unset($_SESSION['errorMessages']);
+                }
             ?>
             <table>
                 <tr>

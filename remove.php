@@ -1,5 +1,4 @@
 <?php
-    require_once "dbinfo.php";
     const STYLE = "styles/styles.css";
 ?>
 
@@ -29,16 +28,39 @@
                     echo $_SESSION['errorMessages'];
                     unset($_SESSION['errorMessages']);
                 }
+                require_once "dbinfo.php";
+                $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+                if ($mysqli->connect_errno) {
+                    die("<p>Could not connect to DB: " . $mysqli->connect_error . "</p>");
+                }
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $query = "SELECT id, firstname, lastname FROM students WHERE id = '$id'";
+                    $result = $mysqli->query($query);
+                    if (!$result) {
+                        die("<p>Could not query DB: " . $mysqli->error . "</p>");
+                    }
+                    if ($result->num_rows === 0) {
+                        die("<p>Nothing to delete!</p>");
+                    }
+                    $row = $result->fetch_assoc();
+                    $firstname = $row['firstname'];
+                    $lastname = $row['lastname'];
+                    $id = $row['id'];
+                } else {
+                    die("<p>No ID specified!</p>");
+                }
             ?>
             <section>
                 <h4>Delete a record - Sure?</h4>
-                <form action="deleteProcessor.php" method="post">
+                <form action="removeProcessor.php" method="post">
                     <fieldset>
-                        <label for="id">Ali Abbasi</label>
+                        <label for="id"><?php echo "$id $firstname $lastname" ?></label>
                         <br>
-                        <input type="radio" id="yes" name="confirm" value="yes">
+                        <input type="hidden" name="id" value="<?php echo $id ?>">
+                        <input type="radio" name="confirm" value="yes">
                         <label for="yes">Yes</label>
-                        <input type="radio" id="no" name="confirm" value="no">
+                        <input type="radio" name="confirm" value="no">
                         <label for="no">No</label>
                         <br>
                         <input type="submit" value="Confirm">

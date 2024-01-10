@@ -48,7 +48,7 @@ if( $mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0 ){
 } else {
     $query = "INSERT INTO students (id, firstname, lastname) VALUES ('$id', '$firstname', '$lastname')";
     $result = $mysqli->query($query);
-    $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " .  $lastname . " was added successfully!</p>";
+    $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " .  $lastname . " was added to database successfully!</p>";
     if(!$result){
         die("<p>Could not insert into DB: " . $mysqli->error . "</p>");
     }
