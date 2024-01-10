@@ -27,3 +27,4 @@ if (isset($_POST["confirm"])) {
 }
 
 $mysqli->close();
+?>
