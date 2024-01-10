@@ -14,6 +14,9 @@ if (isset($_POST["confirm"])) {
         if (!$result) {
             die("<p>Could not delete from DB: " . $mysqli->error . "</p>");
         }
+        $firstname = trim($_POST['firstname']);
+        $lastname = trim($_POST['lastname']);
+        $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " . $lastname . " was deleted from the database successfully!</p>";
         header("Location: index.php");
         die();
     } else {

@@ -58,6 +58,8 @@ const STYLE = "styles/styles.css";
                         <label for="id"><?php echo "$id $firstname $lastname" ?></label>
                         <br>
                         <input type="hidden" name="id" value="<?php echo $id ?>">
+                        <input type="hidden" name="firstname" value="<?php echo $firstname ?>">
+                        <input type="hidden" name="lastname" value="<?php echo $lastname ?>">
                         <input type="radio" name="confirm" value="yes">
                         <label for="yes">Yes</label>
                         <input type="radio" name="confirm" value="no">
