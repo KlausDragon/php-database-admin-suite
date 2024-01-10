@@ -1,5 +1,5 @@
 <?php
-    const STYLE = "styles/styles.css";
+const STYLE = "styles/styles.css";
 ?>
 
 <head>
@@ -23,33 +23,33 @@
             <h2>Administering Database from a form</h2>
             <h3>Delete a student..</h3>
             <?php
-                session_start();
-                if(isset($_SESSION['errorMessages'])){
-                    echo $_SESSION['errorMessages'];
-                    unset($_SESSION['errorMessages']);
+            session_start();
+            if (isset($_SESSION['errorMessages'])) {
+                echo $_SESSION['errorMessages'];
+                unset($_SESSION['errorMessages']);
+            }
+            require_once "dbinfo.php";
+            $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            if ($mysqli->connect_errno) {
+                die("<p>Could not connect to DB: " . $mysqli->connect_error . "</p>");
+            }
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $query = "SELECT id, firstname, lastname FROM students WHERE id = '$id'";
+                $result = $mysqli->query($query);
+                if (!$result) {
+                    die("<p>Could not query DB: " . $mysqli->error . "</p>");
                 }
-                require_once "dbinfo.php";
-                $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-                if ($mysqli->connect_errno) {
-                    die("<p>Could not connect to DB: " . $mysqli->connect_error . "</p>");
+                if ($result->num_rows === 0) {
+                    die("<p>Nothing to delete!</p>");
                 }
-                if (isset($_GET['id'])) {
-                    $id = $_GET['id'];
-                    $query = "SELECT id, firstname, lastname FROM students WHERE id = '$id'";
-                    $result = $mysqli->query($query);
-                    if (!$result) {
-                        die("<p>Could not query DB: " . $mysqli->error . "</p>");
-                    }
-                    if ($result->num_rows === 0) {
-                        die("<p>Nothing to delete!</p>");
-                    }
-                    $row = $result->fetch_assoc();
-                    $firstname = $row['firstname'];
-                    $lastname = $row['lastname'];
-                    $id = $row['id'];
-                } else {
-                    die("<p>No ID specified!</p>");
-                }
+                $row = $result->fetch_assoc();
+                $firstname = $row['firstname'];
+                $lastname = $row['lastname'];
+                $id = $row['id'];
+            } else {
+                die("<p>No ID specified!</p>");
+            }
             ?>
             <section>
                 <h4>Delete a record - Sure?</h4>
@@ -74,12 +74,11 @@
             <ul class="social-icons">
                 <li><a href="https://github.com/KlausDragon" target="_blank" rel="noopener"><i><img src="images/square-github.svg" alt="GitHub"></i></a></li>
                 <li><a href="https://www.linkedin.com/in/aliiabbasii/" target="_blank" rel="noopener"><i><img src="images/linkedin.svg" alt="linkedin"></i></a></li>
-                <li><a href="https://www.instagram.com/klaus.dragon/"
-				<li><a href="https://www.instagram.com/klaus.dragon/" target="_blank" rel="noopener"><i><img src="images/square-instagram.svg" alt="Instagram"></i></a></li>
-			</ul>
-			<p>&copy; <?php echo date("Y");?> Ali Abbasi.</p>
-		</div>
-	</footer>
+                <li><a href="https://www.instagram.com/klaus.dragon/" <li><a href="https://www.instagram.com/klaus.dragon/" target="_blank" rel="noopener"><i><img src="images/square-instagram.svg" alt="Instagram"></i></a></li>
+            </ul>
+            <p>&copy; <?php echo date("Y"); ?> Ali Abbasi.</p>
+        </div>
+    </footer>
 </body>
 
 </html>
