@@ -1,5 +1,4 @@
 <?php
-    require_once "dbinfo.php";
     const STYLE = "styles/styles.css";
 ?>
 
@@ -29,10 +28,36 @@
                     echo $_SESSION['errorMessages'];
                     unset($_SESSION['errorMessages']);
                 }
+                if(isset($_SESSION['successMessage'])){
+                    echo $_SESSION['successMessage'];
+                    unset($_SESSION['successMessage']);
+                }
+                require_once "dbinfo.php";
+                $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+                if($mysqli->connect_errno){
+                    die("<p>Could not connect to DB: " . $mysqli->connect_error . "</p>");
+                }
+                if(isset($_GET['id'])){
+                    $id = $_GET['id'];
+                    $query = "SELECT id, firstname, lastname FROM students WHERE id = '$id'";
+                    $result = $mysqli->query($query);
+                    if(!$result){
+                        die("<p>Could not query DB: " . $mysqli->error . "</p>");
+                    }
+                    if($result->num_rows === 0){
+                        die("<p>Nothing to update!</p>");
+                    }
+                    $row = $result->fetch_assoc();
+                    $firstname = $row['firstname'];
+                    $lastname = $row['lastname'];
+                    $id = $row['id'];
+                } else {
+                    die("<p>No ID specified!</p>");
+                }
             ?>
             <section>
                 <h4>Update a record</h4>
-                <form method="POST" action="insertProcessor.php">
+                <form method="POST" action="updateProcessor.php">
                     <label for="id">Student #:</label>
                     <input type="text" id="id" name="id">
                     <label for="firstname">First Name:</label>
