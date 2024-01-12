@@ -51,12 +51,9 @@ if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
     $result = $mysqli->query($query);
     if (!$result) {
         die("<p>Could not insert into DB: " . $mysqli->error . "</p>");
-    } else {
-        $mysqli->close();
-        $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " .  $lastname . " was added to database successfully!</p>";
-        header("Location: index.php");
-        die();
     }
+    $mysqli->close();
+    $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " .  $lastname . " was added to database successfully!</p>";
+    header("Location: index.php");
+    die();
 }
-
-?>
