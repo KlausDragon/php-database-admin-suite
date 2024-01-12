@@ -31,9 +31,18 @@ if (!isset($_POST['id']) && !isset($_POST['firstname']) && !isset($_POST['lastna
 
         if (strlen($id) != 9) {
             $_SESSION['errorMessages'] = "<p class='error-message'>Please enter a valid student number...</p>";
-            header("Location: update.php?id=$formerId");
+            header("Location: insert.php");
             die();
-        } else if ($id != $formerId) {
+        } else {
+            $regex = '/^a0[0-9]{7}$/i';
+            if (!preg_match($regex, $id)) {
+                $_SESSION['errorMessages'] = "<p class='error-message'>Please enter a valid student number...</p>";
+                header("Location: insert.php");
+                die();
+            }
+        }
+
+        if ($id != $formerId) {
             if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
                 $_SESSION['errorMessages'] = "<p class='error-message'>Sorry, this student already exists...</p>";
                 header("Location: update.php?id=$formerId");
