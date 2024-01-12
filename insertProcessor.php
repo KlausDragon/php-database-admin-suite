@@ -28,9 +28,7 @@ $firstname        = trim($_POST['firstname']);
 $lastname        = trim($_POST['lastname']);
 
 require_once "dbinfo.php";
-
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 if ($mysqli->connect_errno) {
     die("<p>Could not connect to DB: " . $mysqli->connect_error . "</p>");
 }
@@ -44,6 +42,7 @@ if (strlen($id) != 9) {
 }
 
 if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
+    $mysqli->close();
     $_SESSION['errorMessages'] = "<p class='error-message'>Sorry, this student already exists...</p>";
     header("Location: insert.php");
     die();
@@ -53,10 +52,11 @@ if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
     if (!$result) {
         die("<p>Could not insert into DB: " . $mysqli->error . "</p>");
     } else {
+        $mysqli->close();
         $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " .  $lastname . " was added to database successfully!</p>";
+        header("Location: index.php");
+        die();
     }
-    header("Location: index.php");
-    die();
 }
 
-$mysqli->close();
+?>

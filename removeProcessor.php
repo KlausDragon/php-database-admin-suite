@@ -16,6 +16,7 @@ if (isset($_POST["confirm"])) {
         }
         $firstname = trim($_POST['firstname']);
         $lastname = trim($_POST['lastname']);
+        $mysqli->close();
         $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " . $lastname . " was deleted from the database successfully!</p>";
         header("Location: index.php");
         die();
@@ -29,6 +30,3 @@ if (isset($_POST["confirm"])) {
     header("Location: remove.php");
     die();
 }
-
-$mysqli->close();
-?>
