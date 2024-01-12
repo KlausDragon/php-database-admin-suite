@@ -11,7 +11,6 @@ if (
     !isset($_POST['firstname']) ||
     !isset($_POST['lastname'])
 ) {
-
     $_SESSION['errorMessages'] = "<p class='error-message'>Please register, its real easy to do...</p>";
     header("Location: insert.php");
     die();
@@ -35,10 +34,18 @@ if ($mysqli->connect_errno) {
 
 $query = "SELECT id, firstname, lastname FROM students";
 
+// regex for student number is $regex = '/^a0[0-9]{7}$/i';
 if (strlen($id) != 9) {
     $_SESSION['errorMessages'] = "<p class='error-message'>Please enter a valid student number...</p>";
     header("Location: insert.php");
     die();
+} else {
+    $regex = '/^a0[0-9]{7}$/i';
+    if (!preg_match($regex, $id)) {
+        $_SESSION['errorMessages'] = "<p class='error-message'>Please enter a valid student number...</p>";
+        header("Location: insert.php");
+        die();
+    }
 }
 
 if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
@@ -47,7 +54,12 @@ if ($mysqli->query("SELECT id FROM students WHERE id = '$id'")->num_rows > 0) {
     header("Location: insert.php");
     die();
 } else {
-    $query = "INSERT INTO students (id, firstname, lastname) VALUES ('$id', '$firstname', '$lastname')";
+
+    $escaped_id = $mysqli->real_escape_string($id);
+    $escaped_firstname = $mysqli->real_escape_string($firstname);
+    $escaped_lastname = $mysqli->real_escape_string($lastname);
+
+    $query = "INSERT INTO students (id, firstname, lastname) VALUES ('$escaped_id', '$escaped_firstname', '$escaped_lastname')";
     $result = $mysqli->query($query);
     if (!$result) {
         die("<p>Could not insert into DB: " . $mysqli->error . "</p>");

@@ -60,7 +60,7 @@ const STYLE = "styles/styles.css";
                         <input type="hidden" name="id" value="<?php echo $id ?>">
                         <input type="hidden" name="firstname" value="<?php echo $firstname ?>">
                         <input type="hidden" name="lastname" value="<?php echo $lastname ?>">
-                        <input type="radio" name="confirm" value="yes">
+                        <input type="radio" name="confirm" value="yes" checked>
                         <label for="yes">Yes</label>
                         <input type="radio" name="confirm" value="no">
                         <label for="no">No</label>
