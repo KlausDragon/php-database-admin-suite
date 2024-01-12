@@ -51,7 +51,7 @@ if (!isset($_POST['id']) && !isset($_POST['firstname']) && !isset($_POST['lastna
             die("<p>Could not update DB: " . $mysqli->error . "</p>");
         }
         $mysqli->close();
-        $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " . $lastname . " was updated successfully!</p>";
+        $_SESSION['successMessage'] = "<p class='success-message'>" . $firstname . " " . $lastname . "'s record was updated successfully!</p>";
         header("Location: index.php");
         die();
     }
