@@ -24,6 +24,10 @@ if (isset($_POST["confirm"])) {
         header("Location: index.php");
         die();
     }
+} else {
+    $_SESSION['errorMessages'] = "<p class='error-message'>No data was sent!</p>";
+    header("Location: remove.php");
+    die();
 }
 
 $mysqli->close();
